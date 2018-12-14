@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rest.repository.Customer;
 import com.rest.repository.CustomerRepository;
-/* This is a test */
-/* This is update */
-
+import com.rest.repository.CustomerJPARepository;
+import com.data.Entity.CustomerEntity;
+import org.springframework.context.annotation.ComponentScan;
 @Service
+@ComponentScan("com.rest.repository")
 public class CustomerService {
 
 	@Autowired
     private CustomerRepository customerRepository;
+	
+	@Autowired
+	private CustomerJPARepository customerJPARepository;
 
 	@RequestMapping(value="/getAllCustomers")
 	public List<Customer> getAllCustomers() {
@@ -61,6 +65,17 @@ public class CustomerService {
 		List<Customer> customers = null;
 		try {
 			customers = customerRepository.getCustomersByName(name);
+		} catch (Exception ex) {
+			System.out.println("getCustomersByName Customer failed: " + ex.getMessage());
+		}
+		return customers;
+	}
+
+	@RequestMapping(value="/getCustomersByNameJPA")
+	public List<CustomerEntity> getCustomersByNameJPA(String name) {
+		List<CustomerEntity> customers = null;
+		try {
+			customers = customerJPARepository.findByName(name);
 		} catch (Exception ex) {
 			System.out.println("getCustomersByName Customer failed: " + ex.getMessage());
 		}

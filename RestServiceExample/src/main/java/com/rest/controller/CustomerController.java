@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import com.data.Entity.CustomerEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -82,6 +83,24 @@ public class CustomerController {
     	
         	customer = new ObjectMapper().readValue(json, Customer.class);
     		customers = customerService.getCustomersByName(customer.getName());
+
+    	} catch (Exception ex) {
+    		System.out.println("Error: " + ex.getMessage());
+    	}
+        
+        return customers;
+    }
+    
+    @RequestMapping(value = "/getCustomersByNameJPA", consumes="application/json")
+    public List<CustomerEntity> getCustomersByNameJPA(@RequestBody String json) {
+    	
+    	List<CustomerEntity> customers = null;
+    	Customer customer = null;
+
+        try {
+    	
+        	customer = new ObjectMapper().readValue(json, Customer.class);
+    		customers = customerService.getCustomersByNameJPA(customer.getName());
 
     	} catch (Exception ex) {
     		System.out.println("Error: " + ex.getMessage());
