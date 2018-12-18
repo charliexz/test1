@@ -83,7 +83,7 @@ public class AddressEntity {
 		return zip;
 	}
 	
-	public void setZip(String Zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 	
