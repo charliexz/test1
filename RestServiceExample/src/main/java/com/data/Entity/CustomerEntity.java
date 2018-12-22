@@ -4,16 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import java.util.Date;
-
+import javax.persistence.OneToMany;
+import java.util.List;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name = "customer")
 public class CustomerEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
@@ -25,6 +31,9 @@ public class CustomerEntity {
 	
 	@Column(name = "created_date")
 	private Date createdDate;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="customerEntity")
+	List<AddressEntity> addressEntities;
 	
 	
 	public CustomerEntity() {
@@ -52,6 +61,14 @@ public class CustomerEntity {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public List<AddressEntity> getAddressEntities() {
+		return addressEntities;
+	}
+	
+	public void setAddressEntities(List<AddressEntity> addressEntities) {
+		this.addressEntities = addressEntities;
 	}
 	
 	public Date getCreatedDate() {

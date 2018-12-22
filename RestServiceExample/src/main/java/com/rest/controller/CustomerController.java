@@ -1,5 +1,6 @@
 package com.rest.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,23 @@ public class CustomerController {
 	public String addCustomer(@RequestParam String name, @RequestParam String email) {
 		String result = customerService.addCustomer(name, email);
 		return result;
+	}
+
+	@RequestMapping(value="/addCustomerJson", method=RequestMethod.POST, consumes="application/json")
+	public String addCustomerJson(@RequestBody String json) {
+		CustomerEntity customer = null;
+		String message = "";
+
+        try {
+    	
+        	customer = new ObjectMapper().readValue(json, CustomerEntity.class);
+        	customer.setCreatedDate(new Date());
+        	message = customerService.createCustomerJPA(customer);
+
+    	} catch (Exception ex) {
+    		System.out.println("Error: " + ex.getMessage());
+    	}
+		return message;
 	}
 
 	@PostMapping(value="/addCustomerPostMap")

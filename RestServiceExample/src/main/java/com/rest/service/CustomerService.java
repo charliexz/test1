@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.rest.repository.Customer;
 import com.rest.repository.CustomerRepository;
 import com.rest.repository.CustomerJPARepository;
@@ -21,13 +19,11 @@ public class CustomerService {
 	@Autowired
 	private CustomerJPARepository customerJPARepository;
 
-	@RequestMapping(value="/getAllCustomers")
 	public List<Customer> getAllCustomers() {
 		List<Customer> customers = customerRepository.findAll();
 		return customers;
 	}
 
-	@RequestMapping(value="/addCustomer")
 	public String addCustomer(String name, String email) {
 		String result = "Customer Inserted";
 		try {
@@ -38,7 +34,6 @@ public class CustomerService {
 		return result;
 	}
 
-	@RequestMapping(value="/deleteCustomer")
 	public String deleteCustomer(String name, String email) {
 		String result = "customer deleted";
 		try {
@@ -49,7 +44,6 @@ public class CustomerService {
 		return result;
 	}
 
-	@RequestMapping(value="/updateCustomer")
 	public String updateCustomer(String name, String newEmail) {
 		String result = "customer updated";
 		try {
@@ -60,7 +54,6 @@ public class CustomerService {
 		return result;
 	}
 
-	@RequestMapping(value="/getCustomersByName")
 	public List<Customer> getCustomersByName(String name) {
 		List<Customer> customers = null;
 		try {
@@ -71,7 +64,6 @@ public class CustomerService {
 		return customers;
 	}
 
-	@RequestMapping(value="/getCustomersByNameJPA")
 	public List<CustomerEntity> getCustomersByNameJPA(String name) {
 		List<CustomerEntity> customers = null;
 		try {
@@ -80,6 +72,18 @@ public class CustomerService {
 			System.out.println("getCustomersByName Customer failed: " + ex.getMessage());
 		}
 		return customers;
+	}
+
+	public String createCustomerJPA(CustomerEntity customer) {
+		String message = "";
+		try {
+			customerJPARepository.save(customer);
+			message = "Customer created";
+		} catch (Exception ex) {
+			System.out.println("create Customer failed: " + ex.getMessage());
+			message = "create Customer failed: " + ex.getMessage();
+		}
+		return message;
 	}
 
 }

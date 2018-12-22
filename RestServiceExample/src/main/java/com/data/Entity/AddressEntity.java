@@ -5,13 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.GenerationType;
 
 @Entity
 @Table(name = "address")
 public class AddressEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "address_id")
 	private Long id;
 	
@@ -35,6 +39,10 @@ public class AddressEntity {
 	
 	@Column(name = "cell")
 	private String cell;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="customer_id")
+	CustomerEntity customerEntity;
 	
 	public AddressEntity() {
 	}
